@@ -1,8 +1,9 @@
 // CLIENT: interactive FAQ accordion state and quote form
 'use client'
 
-import { useState } from 'react'
-import { Phone, ArrowRight, Lock, ChevronDown } from 'lucide-react'
+import { useState, useTransition } from 'react'
+import { Phone, ArrowRight, Lock, ChevronDown, Loader2 } from 'lucide-react'
+import { submitLead } from '@/app/actions/submit-lead'
 
 const FAQ_ITEMS = [
   {
@@ -38,6 +39,16 @@ const FAQ_ITEMS = [
 export function ConversionAndFaqSection() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [isPending, startTransition] = useTransition()
+
+  const [nom, setNom] = useState('')
+  const [tel, setTel] = useState('')
+  const [email, setEmail] = useState('')
+  const [cp, setCp] = useState('')
+  const [service, setService] = useState<'depannage' | 'entretien' | 'installation' | 'reparation' | 'devis' | 'other'>('devis')
+  const [demande, setDemande] = useState('')
+  const [website, setWebsite] = useState('') // honeypot
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index)
@@ -45,7 +56,27 @@ export function ConversionAndFaqSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitted(true)
+    setErrorMsg(null)
+
+    startTransition(async () => {
+      const res = await submitLead({
+        fullName: nom,
+        phone: tel,
+        email: email || undefined,
+        postalCode: cp,
+        serviceType: service,
+        message: demande || undefined,
+        isUrgent: service === 'depannage',
+        website: website || undefined,
+        sourceUrl: '/',
+      })
+
+      if (res.success) {
+        setIsSubmitted(true)
+      } else {
+        setErrorMsg(res.error)
+      }
+    })
   }
 
   return (
@@ -104,6 +135,24 @@ export function ConversionAndFaqSection() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3.5">
+                {/* Honeypot */}
+                <div className="opacity-0 absolute -z-10 h-0 w-0 overflow-hidden pointer-events-none" aria-hidden="true">
+                  <input
+                    type="text"
+                    name="website"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {errorMsg && (
+                  <div className="p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-200 text-xs">
+                    {errorMsg}
+                  </div>
+                )}
+
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label htmlFor="form-nom" className="sr-only">Nom complet *</label>
@@ -111,6 +160,8 @@ export function ConversionAndFaqSection() {
                       id="form-nom"
                       required
                       type="text"
+                      value={nom}
+                      onChange={(e) => setNom(e.target.value)}
                       placeholder="Nom complet *"
                       className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none"
                     />
@@ -121,6 +172,8 @@ export function ConversionAndFaqSection() {
                       id="form-tel"
                       required
                       type="tel"
+                      value={tel}
+                      onChange={(e) => setTel(e.target.value)}
                       placeholder="Téléphone *"
                       className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none"
                     />
@@ -129,12 +182,13 @@ export function ConversionAndFaqSection() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label htmlFor="form-email" className="sr-only">Email *</label>
+                    <label htmlFor="form-email" className="sr-only">Email</label>
                     <input
                       id="form-email"
-                      required
                       type="email"
-                      placeholder="Email *"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Email (optionnel)"
                       className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none"
                     />
                   </div>
@@ -144,6 +198,10 @@ export function ConversionAndFaqSection() {
                       id="form-cp"
                       required
                       type="text"
+                      maxLength={4}
+                      inputMode="numeric"
+                      value={cp}
+                      onChange={(e) => setCp(e.target.value.replace(/\D/g, '').slice(0, 4))}
                       placeholder="Code postal *"
                       className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none"
                     />
@@ -155,35 +213,47 @@ export function ConversionAndFaqSection() {
                   <select
                     id="form-service"
                     required
-                    defaultValue=""
+                    value={service}
+                    onChange={(e) => setService(e.target.value as typeof service)}
                     className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-slate-300 focus:border-[#E5232E] focus:outline-none"
                   >
-                    <option value="" disabled>Type de service *</option>
-                    <option value="depannage">Dépannage chauffage</option>
-                    <option value="entretien">Entretien chaudière</option>
-                    <option value="installation">Installation chauffage</option>
-                    <option value="pac">Pompe à chaleur</option>
-                    <option value="autre">Autre demande</option>
+                    <option value="depannage">🚨 Dépannage urgent (≤ 2h)</option>
+                    <option value="entretien">🔧 Entretien annuel chaudière PEB</option>
+                    <option value="installation">🏠 Installation neuve chaudière</option>
+                    <option value="reparation">⚙️ Réparation / remplacement pièces</option>
+                    <option value="devis">📋 Demande de devis gratuit</option>
+                    <option value="other">❓ Autre demande</option>
                   </select>
                 </div>
 
                 <div>
-                  <label htmlFor="form-demande" className="sr-only">Décrivez votre demande *</label>
+                  <label htmlFor="form-demande" className="sr-only">Précisions (optionnel)</label>
                   <textarea
                     id="form-demande"
-                    required
                     rows={3}
-                    placeholder="Décrivez votre demande *"
+                    value={demande}
+                    onChange={(e) => setDemande(e.target.value)}
+                    placeholder="Précisions : marque, code erreur, panne..."
                     className="w-full text-xs px-3.5 py-2.5 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-[#E5232E] hover:bg-[#D01B25] text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition-colors text-[14px]"
+                  disabled={isPending}
+                  className="w-full flex items-center justify-center gap-2 bg-[#E5232E] hover:bg-[#D01B25] text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition-colors text-[14px] disabled:opacity-60"
                 >
-                  <span>Envoyer ma demande</span>
-                  <ArrowRight className="h-4 w-4" />
+                  {isPending ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>Envoi en cours...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Envoyer ma demande</span>
+                      <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
                 </button>
 
                 <div className="pt-2 text-[10px] text-slate-300 flex flex-col gap-1 text-center">

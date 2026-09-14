@@ -169,7 +169,28 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['leads']['Row'], 'id' | 'created_at' | 'updated_at'>
+        Insert: {
+          id?: string
+          full_name: string
+          phone: string
+          email?: string | null
+          postal_code: string
+          service_type?: 'depannage' | 'entretien' | 'installation' | 'reparation' | 'devis' | 'other'
+          message?: string | null
+          commune_id?: string | null
+          commune_slug?: string | null
+          user_id?: string | null
+          is_urgent?: boolean
+          status?: 'new' | 'contacted' | 'qualified' | 'converted' | 'lost' | 'spam'
+          source_url?: string | null
+          ip_address?: string | null
+          user_agent?: string | null
+          notes?: string | null
+          contacted_at?: string | null
+          converted_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
         Update: Partial<Database['public']['Tables']['leads']['Insert']>
         Relationships: [
           {

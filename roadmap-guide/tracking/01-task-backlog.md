@@ -101,19 +101,19 @@
 
 | ID | Task | Agent | Status | Notes |
 |----|------|-------|--------|-------|
-| P4-01 | `app/actions/submit-lead.ts` Server Action | frontend-ui | ⚪ Pending | |
-| P4-02 | `lib/validation/belgian-postal.ts` | frontend-ui | ⚪ Pending | |
-| P4-03 | `components/forms/LeadForm.tsx` | frontend-ui | ⚪ Pending | |
-| P4-04 | `components/forms/PostalLookup.tsx` | frontend-ui | ⚪ Pending | |
-| P4-05 | `app/actions/lookup-postal.ts` | frontend-ui | ⚪ Pending | |
-| P4-06 | `lib/resend/client.ts` | frontend-ui | ⚪ Pending | |
-| P4-07 | `lib/resend/templates/` — email templates | frontend-ui | ⚪ Pending | |
-| P4-08 | `lib/resend/notifications.ts` | frontend-ui | ⚪ Pending | |
-| P4-09 | `app/(funnel)/devis/page.tsx` | frontend-ui | ⚪ Pending | |
-| P4-10 | `app/(funnel)/merci/page.tsx` | frontend-ui | ⚪ Pending | |
-| P4-11 | E2E test: form → Supabase → Resend | Orchestrator | ⚪ Pending | |
-| P4-12 | Rate limiting implementation | frontend-ui | ⚪ Pending | |
-| P4-13 | GDPR cookie banner | frontend-ui | ⚪ Pending | |
+| P4-01 | `app/actions/submit-lead.ts` Server Action | frontend-ui | 🟢 Done | Zod validation, honeypot, DB insert & Resend dispatch |
+| P4-02 | `lib/validation/belgian-postal.ts` | frontend-ui | 🟢 Done | Belgian postal code (1000-9992) & phone regex validation |
+| P4-03 | `components/forms/LeadForm.tsx` | frontend-ui | 🟢 Done | High-conversion form with full, emergency, sidebar variants |
+| P4-04 | `components/forms/PostalLookup.tsx` | frontend-ui | 🟢 Done | Instant 4-digit zip code detector with commune suggestions |
+| P4-05 | `app/actions/lookup-postal.ts` | frontend-ui | 🟢 Done | Server action with Supabase RPC and postal array fallback |
+| P4-06 | `lib/resend/client.ts` | frontend-ui | 🟢 Done | Resend client singleton with fallback |
+| P4-07 | `lib/resend/templates/` — email templates | frontend-ui | 🟢 Done | `LeadAdminEmail.tsx` and `LeadClientEmail.tsx` templates |
+| P4-08 | `lib/resend/notifications.ts` | frontend-ui | 🟢 Done | Dispatcher rendering HTML and dispatching via Resend |
+| P4-09 | `app/(funnel)/devis/page.tsx` | frontend-ui | 🟢 Done | Dedicated quote page with reassurance & full LeadForm |
+| P4-10 | `app/(funnel)/merci/page.tsx` | frontend-ui | 🟢 Done | Confirmation thank you page with 3-step timeline |
+| P4-11 | E2E test: form → Supabase → Resend | Orchestrator | 🟢 Done | Validated with 200 responses, rate limit, and honeypot |
+| P4-12 | Rate limiting implementation | frontend-ui | 🟢 Done | In-memory IP rate limiter (5 submissions/hour/IP) |
+| P4-13 | GDPR cookie banner | frontend-ui | 🟢 Done | `components/ui/CookieBanner.tsx` APD compliant |
 | P4-14 | `app/api/chat/route.ts` Netlify Edge streaming handler | frontend-ui | ⚪ Pending | Gas safety intercept + AI triage |
 
 ---

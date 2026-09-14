@@ -64,3 +64,5 @@ Keep descriptions concise (≤ 100 chars). For failures, add a `REASON:` note on
 | 037 | 2026-09-15 | Antigravity | pSEO | Implemented dynamic XML sitemap and robots.txt pointing to all ~337 commune routes and root pages | ✅ PASS | `app/sitemap.ts`, `app/robots.ts` |
 | 038 | 2026-09-15 | Antigravity | Architecture | Created middleware for 301 URL normalization (lowercase, trailing slash removal, legacy lang strip) | ✅ PASS | `middleware.ts` |
 | 039 | 2026-09-15 | Antigravity | Architecture | Added createPublicClient() for static generation & sitemap to prevent cookies() static bailout | ✅ PASS | `lib/supabase/server.ts`, `lib/supabase/communes.ts` |
+| 040 | 2026-09-15 | Antigravity | Lead Capture | Implemented LeadForm, PostalLookup, Belgian validation & Resend transactional notification dispatch | ✅ PASS | `app/actions/*`, `components/forms/*`, `lib/resend/*` |
+| 041 | 2026-09-15 | Antigravity | Conversion | Created dedicated /devis and /merci funnel pages with GDPR CookieBanner and sitemap entry | ✅ PASS | `app/(funnel)/*`, `components/ui/CookieBanner.tsx`, `app/sitemap.ts` |

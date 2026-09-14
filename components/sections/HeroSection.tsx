@@ -1,4 +1,5 @@
 import { Phone, ArrowRight, ShieldCheck, Clock, UserCheck, FileText, Star } from 'lucide-react'
+import { PostalLookup } from '@/components/forms/PostalLookup'
 
 export function HeroSection() {
   return (
@@ -82,6 +83,14 @@ export function HeroSection() {
                 <span>Demander un devis gratuit</span>
                 <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:translate-x-1 transition-transform" />
               </a>
+            </div>
+
+            {/* Postal Code Real-Time Detector */}
+            <div className="w-full max-w-lg mb-7">
+              <PostalLookup
+                placeholder="Votre code postal (ex: 1000, 4000, 7000...)"
+                buttonLabel="Trouver"
+              />
             </div>
 
             {/* Social Proof: 5 yellow/orange stars */}
