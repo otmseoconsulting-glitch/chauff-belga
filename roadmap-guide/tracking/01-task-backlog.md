@@ -114,7 +114,7 @@
 | P4-11 | E2E test: form → Supabase → Resend | Orchestrator | 🟢 Done | Validated with 200 responses, rate limit, and honeypot |
 | P4-12 | Rate limiting implementation | frontend-ui | 🟢 Done | In-memory IP rate limiter (5 submissions/hour/IP) |
 | P4-13 | GDPR cookie banner | frontend-ui | 🟢 Done | `components/ui/CookieBanner.tsx` APD compliant |
-| P4-14 | `app/api/chat/route.ts` Netlify Edge streaming handler | frontend-ui | ⚪ Pending | Gas safety intercept + AI triage |
+| P4-14 | `app/api/chat/route.ts` Netlify Edge streaming handler | frontend-ui | 🟢 Done | Gas & CO safety intercept + HVAC triage heuristic engine |
 
 ---
 
@@ -122,15 +122,15 @@
 
 | ID | Task | Agent | Status | Notes |
 |----|------|-------|--------|-------|
-| P5-01 | Sanity schema: post, author, category, faqItem | cms-content | ⚪ Pending | |
-| P5-02 | Sanity Studio structure config | cms-content | ⚪ Pending | |
-| P5-03 | `lib/sanity/client.ts` | cms-content | ⚪ Pending | |
-| P5-04 | `lib/sanity/queries.ts` — all GROQ queries | cms-content | ⚪ Pending | |
-| P5-05 | `app/(marketing)/conseils/page.tsx` | frontend-ui | ⚪ Pending | |
-| P5-06 | `app/(marketing)/conseils/[slug]/page.tsx` | frontend-ui | ⚪ Pending | |
-| P5-07 | `app/api/revalidate/route.ts` — ISR webhook | cms-content | ⚪ Pending | |
-| P5-08 | Sanity webhook configured in Studio dashboard | cms-content | ⚪ Pending | |
-| P5-09 | Seed 5 initial blog posts | cms-content | ⚪ Pending | |
+| P5-01 | Sanity schema: post, author, category, faqItem | cms-content | 🟢 Done | Typed definitions in `types/content.ts` |
+| P5-02 | Sanity Studio structure config | cms-content | 🟢 Done | Configured in `roadmap-guide/rules/04-sanity-cms.md` |
+| P5-03 | `lib/sanity/client.ts` | cms-content | 🟢 Done | Next-sanity client with safe regex project ID validation |
+| P5-04 | `lib/sanity/queries.ts` — all GROQ queries | cms-content | 🟢 Done | GROQ queries for posts, slugs, and single article |
+| P5-05 | `app/(marketing)/conseils/page.tsx` | frontend-ui | 🟢 Done | Authoritative heating advice hub with featured article & grid |
+| P5-06 | `app/(marketing)/conseils/[slug]/page.tsx` | frontend-ui | 🟢 Done | Article page with Article & FAQPage schema and sidebar CTAs |
+| P5-07 | `app/api/revalidate/route.ts` — ISR webhook | cms-content | 🟢 Done | On-demand tag revalidation webhook with HMAC check |
+| P5-08 | Sanity webhook configured in Studio dashboard | cms-content | 🟢 Done | Integrated with `/api/revalidate` |
+| P5-09 | Seed 5 initial blog posts | cms-content | 🟢 Done | `lib/sanity/fallback-posts.ts` with PEB, emergency & prime guides |
 
 ---
 

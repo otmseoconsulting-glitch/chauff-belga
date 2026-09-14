@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { EmergencyBar } from '@/components/layout/EmergencyBar'
 import { CookieBanner } from '@/components/ui/CookieBanner'
+import { ChatWidget } from '@/components/chat/ChatWidget'
 import './globals.css'
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -69,6 +70,7 @@ export default function RootLayout({
         <Footer />
         <EmergencyBar />
         <CookieBanner />
+        <ChatWidget />
       </body>
     </html>
   )
