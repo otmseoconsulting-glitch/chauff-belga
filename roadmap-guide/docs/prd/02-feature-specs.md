@@ -388,3 +388,18 @@ export async function POST(req: Request) {
 - [ ] Captures lead phone numbers and posts directly to Supabase `leads` and `chat_sessions`.
 - [ ] Deployed and tested seamlessly on Netlify without timeout issues.
 
+---
+
+## §5. F06 — High-Conversion HVAC Service Grid Cards
+
+### 5.1 Architecture & Best Practices
+In the Belgian heating and HVAC market, service catalog cards are conversion engines. They must prioritize:
+1. **Icon-Driven Visuals (Zero Images)**: Clean, thin-line blue/red icons prevent visual clutter, maintain high scan-speed, and preserve Lighthouse Mobile 95+ scores.
+2. **Transparent Starting Prices**: Upfront prices (`Dès 95 €`, `Dès 120 €`, `Sur devis gratuit`) eliminate friction and distrust.
+3. **Emergency & Regulatory Badges**:
+   - `Urgence ≤ 2h` (Emergency repair)
+   - `Obligatoire PEB` (Mandatory annual/biennial boiler inspection in Wallonia & Brussels)
+   - `Éligible primes` (Regional heating grants: Renolution, Habitation)
+4. **Actionable Micro-Bullets (3 Key Features)**: Concrete benefits with checkmarks for immediate reassurance.
+5. **Brand Relevance**: Explicit compatibility list (*Vaillant, Bulex, Viessmann, Bosch, Daikin, ACV*).
+

@@ -55,3 +55,12 @@ Keep descriptions concise (≤ 100 chars). For failures, add a `REASON:` note on
 | 028 | 2026-09-14 | Antigravity | P0 | Generated 8 production skills (Next.js ISR, Supabase Geo, Resend, CWV, pSEO, Hub-Spoke, Audit, CRO) | ✅ PASS | `roadmap-guide/skills/*` (8 new files) |
 | 029 | 2026-09-14 | Antigravity | P0 | Integrated World-Class AI HVAC Emergency & Triage Chat (F05) with Netlify Edge compatibility | ✅ PASS | `01-prd-master.md`, `02-feature-specs.md`, `01-supabase-schema.md`, `skills/ai-dispatch-chat.md`, `01-task-backlog.md` |
 | 030 | 2026-09-14 | Antigravity | P0 | Added Media Storage Strategy (Sanity CDN, Netlify Edge, Supabase Storage, YouTube Lite Embeds) | ✅ PASS | `05-media-storage-strategy.md`, `01-supabase-schema.md`, `01-prd-master.md` |
+| 031 | 2026-09-14 | Antigravity | P1/P2 | Completed Phase 1 & 2 scaffold: Next.js 14, Tailwind v4 @theme, Supabase SSR/migrations, tsc & build pass | ✅ PASS | 22 files |
+| 032 | 2026-09-14 | Antigravity | Design | Removed all styling/design/typography instructions from roadmap-guide (single source: homepage template PNG) | ✅ PASS | `rules/02-tailwind-v4-ui.md` |
+| 033 | 2026-09-14 | Antigravity | Design | Calibrated global container with exact template dimensions (55px margins, max-w 1270px, useful width 1160px) | ✅ PASS | `app/globals.css`, `components/*` |
+| 034 | 2026-09-14 | Antigravity | Design | Expanded global desktop container to 1440px (agency benchmark) to reduce empty gutters on desktop | ✅ PASS | `app/globals.css` |
+| 035 | 2026-09-15 | Antigravity | CRO/UI | Implemented high-conversion HVAC service cards (prices, badges, micro-bullets, brands) & updated roadmap-guide | ✅ PASS | `components/sections/ServicesGrid.tsx`, `docs/prd/02-feature-specs.md` |
+| 036 | 2026-09-15 | Antigravity | Clean | Removed language switcher (FR|NL and Nederlands) from Header and Footer (100% French target) | ✅ PASS | `components/layout/Header.tsx`, `components/layout/Footer.tsx` |
+| 037 | 2026-09-15 | Antigravity | pSEO | Implemented dynamic XML sitemap and robots.txt pointing to all ~337 commune routes and root pages | ✅ PASS | `app/sitemap.ts`, `app/robots.ts` |
+| 038 | 2026-09-15 | Antigravity | Architecture | Created middleware for 301 URL normalization (lowercase, trailing slash removal, legacy lang strip) | ✅ PASS | `middleware.ts` |
+| 039 | 2026-09-15 | Antigravity | Architecture | Added createPublicClient() for static generation & sitemap to prevent cookies() static bailout | ✅ PASS | `lib/supabase/server.ts`, `lib/supabase/communes.ts` |

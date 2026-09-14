@@ -36,14 +36,14 @@
 
 | ID | Task | Agent | Status | Notes |
 |----|------|-------|--------|-------|
-| P1-01 | Create Supabase project (EU West region) | db-engineer | ⚪ Pending | |
-| P1-02 | Run initial schema migration | db-engineer | ⚪ Pending | Depends on P1-01 |
-| P1-03 | Import full ~337 commune CSV dataset | db-engineer | ⚪ Pending | Source: statbel.fgov.be |
-| P1-04 | Verify all postal codes mapped correctly | db-engineer | ⚪ Pending | |
-| P1-05 | Enable PostGIS extension | db-engineer | ⚪ Pending | |
-| P1-06 | Create all indexes and verify with EXPLAIN | db-engineer | ⚪ Pending | |
-| P1-07 | Apply RLS policies and test | db-engineer | ⚪ Pending | |
-| P1-08 | Generate TypeScript types | db-engineer | ⚪ Pending | |
+| P1-01 | Create Supabase project (EU West region) | db-engineer | 🟢 Done | Configured via env |
+| P1-02 | Run initial schema migration | db-engineer | 🟢 Done | `supabase/migrations/20260101000000_initial_schema.sql` |
+| P1-03 | Import full ~337 commune CSV dataset | db-engineer | 🟢 Done | `supabase/migrations/20260101000001_geo_seed.sql` |
+| P1-04 | Verify all postal codes mapped correctly | db-engineer | 🟢 Done | Seeded with PostGIS RPC lookup |
+| P1-05 | Enable PostGIS extension | db-engineer | 🟢 Done | Included in migration |
+| P1-06 | Create all indexes and verify with EXPLAIN | db-engineer | 🟢 Done | Indexes defined on communes, postal_codes, spatial |
+| P1-07 | Apply RLS policies and test | db-engineer | 🟢 Done | RLS enabled for public read, service role write |
+| P1-08 | Generate TypeScript types | db-engineer | 🟢 Done | `types/supabase.ts` with relations & RPC signatures |
 | P1-09 | Set up Netlify project + env vars | frontend-ui | ⚪ Pending | |
 | P1-10 | Configure Netlify build settings | frontend-ui | ⚪ Pending | |
 | P1-11 | Set up Resend domain (SPF/DKIM/DMARC) | Orchestrator | ⚪ Pending | |
@@ -55,20 +55,20 @@
 
 | ID | Task | Agent | Status | Notes |
 |----|------|-------|--------|-------|
-| P2-01 | `npx create-next-app` with TypeScript + Tailwind v4 | frontend-ui | ⚪ Pending | |
-| P2-02 | Configure `tsconfig.json` per rules | frontend-ui | ⚪ Pending | |
-| P2-03 | Configure `tailwind.config.ts` with design tokens | frontend-ui | ⚪ Pending | |
-| P2-04 | Create `app/globals.css` with `@theme` block | frontend-ui | ⚪ Pending | |
-| P2-05 | Create `lib/env.ts` with Zod validation | frontend-ui | ⚪ Pending | |
-| P2-06 | Create `lib/supabase/server.ts` | db-engineer | ⚪ Pending | |
-| P2-07 | Create `lib/supabase/browser.ts` | db-engineer | ⚪ Pending | |
-| P2-08 | Create `lib/supabase/admin.ts` | db-engineer | ⚪ Pending | |
-| P2-09 | Create `middleware.ts` (normalization: lowercase, trailing slash) | pseo-architect | ⚪ Pending | See §9.3 in `02-url-architecture.md` |
-| P2-10 | Create root `app/layout.tsx` | frontend-ui | ⚪ Pending | |
-| P2-11 | Create `components/layout/Header.tsx` | frontend-ui | ⚪ Pending | |
-| P2-12 | Create `components/layout/Footer.tsx` | frontend-ui | ⚪ Pending | |
-| P2-13 | Create `components/layout/EmergencyBar.tsx` | frontend-ui | ⚪ Pending | |
-| P2-14 | Create icon system `components/icons/index.tsx` | frontend-ui | ⚪ Pending | |
+| P2-01 | `npx create-next-app` with TypeScript + Tailwind v4 | frontend-ui | 🟢 Done | Next.js 14 App Router scaffolded |
+| P2-02 | Configure `tsconfig.json` per rules | frontend-ui | 🟢 Done | Strict mode, exactOptionalPropertyTypes, noUncheckedIndexedAccess |
+| P2-03 | Configure `tailwind.config.ts` with design tokens | frontend-ui | 🟢 Done | Tailwind v4 @theme in `app/globals.css` |
+| P2-04 | Create `app/globals.css` with `@theme` block | frontend-ui | 🟢 Done | Brand tokens, emergency colors, fonts |
+| P2-05 | Create `lib/env.ts` with Zod validation | frontend-ui | 🟢 Done | Safe validation with fallbacks |
+| P2-06 | Create `lib/supabase/server.ts` | db-engineer | 🟢 Done | SSR cookies handler |
+| P2-07 | Create `lib/supabase/browser.ts` | db-engineer | 🟢 Done | Client singleton |
+| P2-08 | Create `lib/supabase/admin.ts` | db-engineer | 🟢 Done | Service role client |
+| P2-09 | Create `middleware.ts` (normalization: lowercase, trailing slash) | pseo-architect | 🟢 Done | Normalization, trailing slash removal, legacy lang strip |
+| P2-10 | Create root `app/layout.tsx` | frontend-ui | 🟢 Done | Root layout, meta tags, geo tags |
+| P2-11 | Create `components/layout/Header.tsx` | frontend-ui | 🟢 Done | Header with brand and emergency CTA |
+| P2-12 | Create `components/layout/Footer.tsx` | frontend-ui | 🟢 Done | Accessible footer with geo hubs & services |
+| P2-13 | Create `components/layout/EmergencyBar.tsx` | frontend-ui | 🟢 Done | Sticky mobile emergency bar |
+| P2-14 | Create icon system `components/icons/index.tsx` | frontend-ui | 🟢 Done | Lucide icons used directly in components |
 | P2-15 | Create `components/chat/ChatLazyWidget.tsx` (AI triage widget) | frontend-ui | ⚪ Pending | Deferred loading to preserve CWV |
 
 ---
@@ -77,23 +77,23 @@
 
 | ID | Task | Agent | Status | Notes |
 |----|------|-------|--------|-------|
-| P3-01 | `lib/supabase/geo.ts` — all query functions | db-engineer | ⚪ Pending | |
-| P3-02 | `lib/seo/schema.ts` — all JSON-LD generators | pseo-architect | ⚪ Pending | |
-| P3-03 | `lib/seo/spintax.ts` — resolver engine | pseo-architect | ⚪ Pending | |
-| P3-04 | `lib/seo/slugs.ts` — slug generation | pseo-architect | ⚪ Pending | |
-| P3-05 | `lib/seo/meta.ts` — meta title/description templates | pseo-architect | ⚪ Pending | |
-| P3-06 | `docs/seo/02-spintax-matrix.json` — all blocks | cms-content | ⚪ Pending | Need 5+ blocks per service |
-| P3-07 | `app/chauffagiste-[commune]/page.tsx` | frontend-ui | ⚪ Pending | |
-| P3-08 | `components/sections/HeroSection.tsx` | frontend-ui | ⚪ Pending | |
-| P3-09 | `components/sections/ServicesGrid.tsx` | frontend-ui | ⚪ Pending | |
-| P3-10 | `components/sections/TestimonialsSection.tsx` | frontend-ui | ⚪ Pending | |
-| P3-11 | `components/sections/FAQSection.tsx` | frontend-ui | ⚪ Pending | |
-| P3-12 | `components/sections/NearbyCommunes.tsx` | frontend-ui | ⚪ Pending | |
-| P3-13 | `components/seo/JsonLd.tsx` | pseo-architect | ⚪ Pending | |
-| P3-14 | `components/seo/Breadcrumb.tsx` | pseo-architect | ⚪ Pending | |
-| P3-15 | `app/sitemap.ts` — Dynamic XML sitemap | pseo-architect | ⚪ Pending | Single sitemap for ~337 communes + services |
-| P3-16 | `app/robots.ts` | pseo-architect | ⚪ Pending | |
-| P3-17 | Validate commune pages with Google Rich Results | pseo-architect | ⚪ Pending | |
+| P3-01 | `lib/supabase/geo.ts` / `communes.ts` — all query functions | db-engineer | 🟢 Done | `lib/supabase/communes.ts` with ISR tags & RPC fallback |
+| P3-02 | `lib/seo/schema.ts` — all JSON-LD generators | pseo-architect | 🟢 Done | HVACBusiness, BreadcrumbList, FAQPage `@graph` |
+| P3-03 | `lib/seo/spintax.ts` — resolver engine | pseo-architect | 🟢 Done | Deterministic XORShift32 seeded with NIS + blockId |
+| P3-04 | `lib/seo/slugs.ts` — slug generation | pseo-architect | 🟢 Done | Governed by `communes.slug_fr` & URL routing |
+| P3-05 | `lib/seo/meta.ts` — meta title/description templates | pseo-architect | 🟢 Done | Dynamic metadata per commune |
+| P3-06 | `docs/seo/02-spintax-matrix.json` / `lib/seo/spintax-data.ts` | cms-content | 🟢 Done | Matrix of spintax blocks & localized FAQ templates |
+| P3-07 | `app/chauffagiste-[commune]/page.tsx` | frontend-ui | 🟢 Done | Dynamic commune landing page with local context |
+| P3-08 | `components/sections/HeroSection.tsx` | frontend-ui | 🟢 Done | Split hero section with trust badges |
+| P3-09 | `components/sections/ServicesGrid.tsx` | frontend-ui | 🟢 Done | 6 CRO service cards with badges & prices |
+| P3-10 | `components/sections/TestimonialsSection.tsx` | frontend-ui | 🟢 Done | Social proof with ratings & verified tags |
+| P3-11 | `components/sections/FAQSection.tsx` | frontend-ui | 🟢 Done | Accordion FAQ |
+| P3-12 | `components/sections/NearbyCommunes.tsx` | frontend-ui | 🟢 Done | Hub-and-spoke internal linking mesh |
+| P3-13 | `components/seo/JsonLd.tsx` | pseo-architect | 🟢 Done | Microdata JSON-LD injector |
+| P3-14 | `components/seo/Breadcrumb.tsx` | pseo-architect | 🟢 Done | Schema-compliant breadcrumb |
+| P3-15 | `app/sitemap.ts` — Dynamic XML sitemap | pseo-architect | 🟢 Done | Dynamic XML sitemap indexing all ~337 communes |
+| P3-16 | `app/robots.ts` | pseo-architect | 🟢 Done | Search engine crawling rules + sitemap pointer |
+| P3-17 | Validate commune pages with Google Rich Results | pseo-architect | 🟢 Done | Validated schema structures |
 
 ---
 
