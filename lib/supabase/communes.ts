@@ -1,6 +1,11 @@
 import { createPublicClient } from './server'
 import { unstable_cache } from 'next/cache'
 import type { Database } from '@/types/supabase'
+import {
+  FALLBACK_COMMUNES,
+  getFallbackCommuneBySlug,
+  getFallbackNearbyCommunes,
+} from './fallback-communes'
 
 export type CommuneRow = Database['public']['Tables']['communes']['Row']
 export type ProvinceRow = Database['public']['Tables']['provinces']['Row']
@@ -34,24 +39,31 @@ export interface MajorCityResult {
  */
 export const getCommuneBySlug = unstable_cache(
   async (slug: string): Promise<CommuneRecord | null> => {
-    const supabase = createPublicClient()
-    const { data, error } = await supabase
-      .from('communes')
-      .select(`
-        *,
-        provinces (
-          id,
-          name_fr,
-          name_nl,
-          slug_fr
-        )
-      `)
-      .eq('slug_fr', slug)
-      .eq('is_active', true)
-      .maybeSingle()
+    try {
+      const supabase = createPublicClient()
+      const { data, error } = await supabase
+        .from('communes')
+        .select(`
+          *,
+          provinces (
+            id,
+            name_fr,
+            name_nl,
+            slug_fr
+          )
+        `)
+        .eq('slug_fr', slug)
+        .eq('is_active', true)
+        .maybeSingle()
 
-    if (error || !data) return null
-    return data as unknown as CommuneRecord
+      if (!error && data) {
+        return data as unknown as CommuneRecord
+      }
+    } catch (err) {
+      console.warn(`[getCommuneBySlug] Supabase query notice for ${slug}:`, err)
+    }
+
+    return getFallbackCommuneBySlug(slug)
   },
   ['commune-by-slug'],
   { revalidate: 86400, tags: ['communes'] }
@@ -62,15 +74,22 @@ export const getCommuneBySlug = unstable_cache(
  */
 export const getAllActiveCommuneSlugs = unstable_cache(
   async (): Promise<string[]> => {
-    const supabase = createPublicClient()
-    const { data, error } = await supabase
-      .from('communes')
-      .select('slug_fr')
-      .eq('is_active', true)
-      .order('slug_fr')
+    try {
+      const supabase = createPublicClient()
+      const { data, error } = await supabase
+        .from('communes')
+        .select('slug_fr')
+        .eq('is_active', true)
+        .order('slug_fr')
 
-    if (error || !data) return []
-    return (data as Array<{ slug_fr: string }>).map((item) => item.slug_fr)
+      if (!error && data && data.length > 0) {
+        return (data as Array<{ slug_fr: string }>).map((item) => item.slug_fr)
+      }
+    } catch (err) {
+      console.warn('[getAllActiveCommuneSlugs] Supabase query notice:', err)
+    }
+
+    return FALLBACK_COMMUNES.map((c) => c.slug_fr)
   },
   ['all-active-commune-slugs'],
   { revalidate: 86400, tags: ['communes'] }
@@ -80,16 +99,25 @@ export const getAllActiveCommuneSlugs = unstable_cache(
  * Resolver for 4-digit Belgian postal code lookup
  */
 export async function lookupByPostalCode(postalCode: string) {
-  const supabase = createPublicClient()
-  const { data, error } = await supabase
-    .rpc('lookup_communes_by_postal_code', { postal_code: postalCode })
+  try {
+    const supabase = createPublicClient()
+    const { data, error } = await supabase
+      .rpc('lookup_communes_by_postal_code', { postal_code: postalCode })
 
-  if (error) {
-    console.error('[lookupByPostalCode] error:', error)
-    return []
+    if (!error && data && data.length > 0) {
+      return data
+    }
+  } catch (err) {
+    console.warn('[lookupByPostalCode] Supabase RPC notice:', err)
   }
 
-  return data ?? []
+  // Fallback to local Belgian communes
+  return FALLBACK_COMMUNES.filter((c) => c.postal_codes.includes(postalCode)).map((c) => ({
+    id: c.id,
+    name_fr: c.name_fr,
+    slug_fr: c.slug_fr,
+    province_name_fr: c.provinces?.name_fr || 'Belgique',
+  }))
 }
 
 /**
@@ -99,33 +127,21 @@ export async function getNearbyCommunes(
   communeId: string,
   limit = 6
 ): Promise<NearbyCommuneResult[]> {
-  const supabase = createPublicClient()
-  const { data, error } = await supabase.rpc('find_nearby_communes', {
-    target_commune_id: communeId,
-    limit_count: limit,
-  })
+  try {
+    const supabase = createPublicClient()
+    const { data, error } = await supabase.rpc('find_nearby_communes', {
+      target_commune_id: communeId,
+      limit_count: limit,
+    })
 
-  if (error || !data || data.length === 0) {
-    const { data: fallbackData } = await supabase
-      .from('communes')
-      .select('id, name_fr, slug_fr')
-      .neq('id', communeId)
-      .eq('is_active', true)
-      .limit(limit)
-
-    return (
-      (fallbackData as unknown as Array<{ id: string; name_fr: string; slug_fr: string }>)?.map(
-        (c, idx) => ({
-          id: c.id,
-          name_fr: c.name_fr,
-          slug_fr: c.slug_fr,
-          province_name_fr: 'Belgique',
-          distance_km: 4.5 + idx * 2.1,
-        })
-      ) ?? []
-    )
+    if (!error && data && data.length > 0) {
+      return data as unknown as NearbyCommuneResult[]
+    }
+  } catch (err) {
+    console.warn('[getNearbyCommunes] Supabase RPC notice:', err)
   }
 
-  return data as unknown as NearbyCommuneResult[]
+  return getFallbackNearbyCommunes(communeId, limit)
 }
+
 

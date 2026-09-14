@@ -29,7 +29,7 @@ interface CommunePageProps {
 export async function generateStaticParams() {
   const slugs = await getAllActiveCommuneSlugs()
   return slugs.map((slug) => ({
-    commune: slug,
+    commune: `chauffagiste-${slug}`,
   }))
 }
 
@@ -37,13 +37,20 @@ export async function generateStaticParams() {
  * Dynamic SEO metadata per commune
  */
 export async function generateMetadata({ params }: CommunePageProps): Promise<Metadata> {
-  const commune = await getCommuneBySlug(params.commune)
+  if (!params.commune.startsWith('chauffagiste-')) return {}
+  const slug = params.commune.replace(/^chauffagiste-/, '')
+  const commune = await getCommuneBySlug(slug)
   if (!commune) return {}
   return generateCommuneMetadata(commune)
 }
 
 export default async function CommunePage({ params }: CommunePageProps) {
-  const commune = await getCommuneBySlug(params.commune)
+  if (!params.commune.startsWith('chauffagiste-')) {
+    notFound()
+  }
+
+  const slug = params.commune.replace(/^chauffagiste-/, '')
+  const commune = await getCommuneBySlug(slug)
   if (!commune) {
     notFound()
   }
