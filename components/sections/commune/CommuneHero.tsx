@@ -8,13 +8,12 @@ import {
   ShieldCheck,
   Send,
   Lock,
-  User,
-  Mail,
   FileText,
   MapPin,
   Sparkles,
 } from 'lucide-react'
 import type { CommuneRecord } from '@/lib/supabase/communes'
+import { LeadForm } from '@/components/forms/LeadForm'
 
 interface CommuneHeroProps {
   commune: CommuneRecord
@@ -163,95 +162,12 @@ export function CommuneHero({ commune }: CommuneHeroProps) {
 
           {/* Right Column: Lead Capture Form Card (Exact template match) */}
           <div id="lead-form" className="lg:col-span-5">
-            <div className="rounded-2xl bg-white p-6 sm:p-7 border border-slate-200 shadow-xl relative">
-              <div className="mb-5">
-                <h2 className="text-xl sm:text-2xl font-black text-brand-dark tracking-tight leading-snug">
-                  Besoin d’un chauffagiste à {commune.name_fr} ?
-                </h2>
-                <p className="text-slate-500 text-xs sm:text-sm mt-1">
-                  Recevez une réponse rapide sous 2h.
-                </p>
-              </div>
-
-              <form action="/devis" method="GET" className="space-y-3.5">
-                {/* Nom */}
-                <div className="relative">
-                  <User className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    placeholder="Nom complet"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#FF5400]/30 focus:border-[#FF5400] transition-colors"
-                  />
-                </div>
-
-                {/* Téléphone */}
-                <div className="relative">
-                  <Phone className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
-                  <input
-                    type="tel"
-                    name="phone"
-                    required
-                    placeholder="Téléphone"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#FF5400]/30 focus:border-[#FF5400] transition-colors"
-                  />
-                </div>
-
-                {/* Email */}
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="Votre email"
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#FF5400]/30 focus:border-[#FF5400] transition-colors"
-                  />
-                </div>
-
-                {/* Service Dropdown */}
-                <div className="relative">
-                  <select
-                    name="service"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#FF5400]/30 focus:border-[#FF5400] transition-colors"
-                  >
-                    <option value="">Type de service</option>
-                    <option value="depannage">Dépannage d’urgence</option>
-                    <option value="entretien">Entretien chaudière obligatoire</option>
-                    <option value="installation">Installation / Remplacement</option>
-                    <option value="regulation">Réglage & thermostat</option>
-                    <option value="chauffage-sol">Chauffage au sol</option>
-                    <option value="pompe-chaleur">Pompe à chaleur</option>
-                    <option value="debouchage">Débouchage canalisations</option>
-                  </select>
-                </div>
-
-                {/* Textarea */}
-                <div>
-                  <textarea
-                    rows={3}
-                    name="details"
-                    placeholder="Décrivez votre demande..."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#FF5400]/30 focus:border-[#FF5400] transition-colors resize-none"
-                  />
-                </div>
-
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  className="w-full py-3.5 px-4 rounded-xl bg-[#FF5400] hover:bg-[#E54A00] text-white font-extrabold text-sm tracking-wide transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <span>Envoyer ma demande</span>
-                </button>
-
-                {/* Privacy note */}
-                <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 pt-1">
-                  <Lock className="h-3 w-3 text-slate-400" />
-                  <span>Vos données sont protégées (RGPD)</span>
-                </div>
-              </form>
-            </div>
+            <LeadForm
+              variant="full"
+              initialPostalCode={postal}
+              sourceUrl={`/chauffagiste-${commune.slug_fr}`}
+              className="p-6 sm:p-7 shadow-xl border border-slate-200"
+            />
           </div>
 
         </div>

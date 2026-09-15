@@ -116,17 +116,18 @@ ON CONFLICT (nis_code) DO UPDATE SET
 -- SERVICE CATEGORIES (8 core services)
 -- ============================================================
 
-INSERT INTO service_categories (slug, name_fr, name_nl, short_desc_fr, short_desc_nl, price_from, is_emergency, priority_order) VALUES
-('depannage-chaudiere',    'Dépannage chaudière',     'Herstelling verwarmingsketel', 'Panne, fuite, perte de pression',                       'Pech, lek, drukprobleem',                     65,  true,  1),
-('entretien-chaudiere',    'Entretien chaudière',     'Onderhoud verwarmingsketel',   'Plus de performance, moins de pannes',                   'Betere prestaties, minder storingen',         99,  false, 2),
-('installation-chauffage', 'Installation chauffage',  'Installatie verwarming',       'Chaudières, radiateurs, pompes à chaleur',               'Ketels, radiatoren, warmtepompen',            350, false, 3),
-('reparation-chaudiere',   'Réparation chaudière',    'Reparatie verwarmingsketel',   'Toutes marques',                                         'Alle merken',                                 85,  false, 4),
-('regulation-thermostat',  'Régulation & thermostat', 'Regeling & thermostaat',       'Confort et économies d''énergie',                        'Comfort en energiebesparing',                 120, false, 5),
-('chauffage-sol',          'Chauffage au sol',        'Vloerverwarming',              'Installation et entretien',                              'Installatie en onderhoud',                    200, false, 6),
-('pompe-chaleur',          'Pompe à chaleur',         'Warmtepomp',                   'Solutions performantes pour réduire votre consommation', 'Performante oplossingen voor lager verbruik', 800, false, 7),
-('debouchage',             'Débouchage',              'Ontstopping',                  'Canalisations, évacuations, WC',                         'Leidingen, afvoeren, toilet',                 75,  true,  8)
+INSERT INTO service_categories (slug, name_fr, name_nl, short_desc_fr, short_desc_nl, icon_name, price_from, is_emergency, priority_order) VALUES
+('depannage-chaudiere',    'Dépannage chaudière',     'Herstelling verwarmingsketel', 'Panne, fuite, perte de pression',                       'Pech, lek, drukprobleem',                     'Flame',        65,  true,  1),
+('entretien-chaudiere',    'Entretien chaudière',     'Onderhoud verwarmingsketel',   'Plus de performance, moins de pannes',                   'Betere prestaties, minder storingen',         'CheckCircle2', 99,  false, 2),
+('installation-chauffage', 'Installation chauffage',  'Installatie verwarming',       'Chaudières, radiateurs, pompes à chaleur',               'Ketels, radiatoren, warmtepompen',            'Wrench',       350, false, 3),
+('reparation-chaudiere',   'Réparation chaudière',    'Reparatie verwarmingsketel',   'Toutes marques',                                         'Alle merken',                                 'Hammer',       85,  false, 4),
+('regulation-thermostat',  'Régulation & thermostat', 'Regeling & thermostaat',       'Confort et économies d''énergie',                        'Comfort en energiebesparing',                 'Gauge',        120, false, 5),
+('chauffage-sol',          'Chauffage au sol',        'Vloerverwarming',              'Installation et entretien',                              'Installatie en onderhoud',                    'Layers',       200, false, 6),
+('pompe-chaleur',          'Pompe à chaleur',         'Warmtepomp',                   'Solutions performantes pour réduire votre consommation', 'Performante oplossingen voor lager verbruik', 'Zap',          800, false, 7),
+('debouchage',             'Débouchage',              'Ontstopping',                  'Canalisations, évacuations, WC',                         'Leidingen, afvoeren, toilet',                 'Droplets',     75,  true,  8)
 ON CONFLICT (slug) DO UPDATE SET
   name_fr = EXCLUDED.name_fr,
+  icon_name = EXCLUDED.icon_name,
   price_from = EXCLUDED.price_from;
 
 -- ============================================================

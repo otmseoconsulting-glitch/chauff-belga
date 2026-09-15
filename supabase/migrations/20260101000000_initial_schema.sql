@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS service_categories (
   short_desc_fr   TEXT NOT NULL,
   short_desc_nl   TEXT NOT NULL,
   long_desc_fr    TEXT,
-  icon_name       TEXT NOT NULL,
+  icon_name       TEXT NOT NULL DEFAULT 'Wrench',
   price_from      INTEGER NOT NULL,
   is_emergency    BOOLEAN NOT NULL DEFAULT false,
   priority_order  SMALLINT NOT NULL DEFAULT 99,
