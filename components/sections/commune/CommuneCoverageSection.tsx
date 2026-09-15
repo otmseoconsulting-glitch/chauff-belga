@@ -72,13 +72,13 @@ export function CommuneCoverageSection({
             )}
 
             <div>
-              <a
-                href="#communes-list"
+              <Link
+                href="/zones-intervention"
                 className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl border border-slate-300 hover:border-brand-blue hover:text-brand-blue text-xs font-bold text-slate-800 transition-colors"
               >
                 <span>Voir toutes les communes couvertes</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ export function CommuneCoverageSection({
 
               {/* 2-column list matching template */}
               <div className="grid grid-cols-2 gap-x-3 gap-y-2.5">
-                {nearbyCommunes.slice(0, 8).map((c) => (
+                {nearbyCommunes.map((c) => (
                   <Link
                     key={c.slug_fr}
                     href={`/chauffagiste-${c.slug_fr}`}

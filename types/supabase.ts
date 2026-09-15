@@ -302,11 +302,19 @@ export interface Database {
         }[]
       }
       find_nearby_communes: {
-        Args: {
-          target_commune_id: string
-          limit_count?: number
-          max_distance_km?: number
-        }
+        Args:
+          | {
+              target_commune_id: string
+              limit_count?: number
+              max_distance_km?: number
+            }
+          | {
+              p_lat: number
+              p_lng: number
+              p_radius_km?: number
+              p_exclude_id?: string
+              p_limit?: number
+            }
         Returns: {
           id: string
           name_fr: string

@@ -63,7 +63,7 @@ export default async function CommunePage({ params }: CommunePageProps) {
 
   const isMajorCity = Boolean(commune.is_major_hub)
   const content = generateCommuneContent(commune)
-  const nearby = await getNearbyCommunes(commune.id, isMajorCity ? 8 : 6)
+  const nearby = await getNearbyCommunes(commune, isMajorCity ? 12 : 8)
   const parentMajorHub = !isMajorCity ? await getNearestMajorHub(commune) : null
   const schemas = buildCommuneSchemaGraph(commune)
   const localFaqs = getLocalFaqTemplates(commune.name_fr).slice(0, isMajorCity ? 6 : 5)

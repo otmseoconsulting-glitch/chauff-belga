@@ -125,11 +125,34 @@ export async function lookupByPostalCode(postalCode: string) {
  * Fetch nearby communes for a target commune ID with PostGIS RPC and fallback
  */
 export async function getNearbyCommunes(
-  communeId: string,
-  limit = 6
+  communeOrId: string | CommuneRecord,
+  limit = 8
 ): Promise<NearbyCommuneResult[]> {
+  const isRecord = typeof communeOrId !== 'string'
+  const communeId = isRecord ? communeOrId.id : communeOrId
+  const lat = isRecord ? communeOrId.latitude : undefined
+  const lng = isRecord ? communeOrId.longitude : undefined
+  const slug = isRecord ? communeOrId.slug_fr : undefined
+
   try {
     const supabase = createPublicClient()
+
+    // 1. Primary: Use exact GPS coordinates if available (matching SQL signature)
+    if (lat !== undefined && lng !== undefined) {
+      const { data, error } = await supabase.rpc('find_nearby_communes', {
+        p_lat: lat,
+        p_lng: lng,
+        p_radius_km: 35,
+        p_exclude_id: communeId,
+        p_limit: limit,
+      })
+
+      if (!error && data && data.length > 0) {
+        return data as unknown as NearbyCommuneResult[]
+      }
+    }
+
+    // 2. Secondary: Try target_commune_id signature
     const { data, error } = await supabase.rpc('find_nearby_communes', {
       target_commune_id: communeId,
       limit_count: limit,
@@ -142,7 +165,7 @@ export async function getNearbyCommunes(
     console.warn('[getNearbyCommunes] Supabase RPC notice:', err)
   }
 
-  return getFallbackNearbyCommunes(communeId, limit)
+  return getFallbackNearbyCommunes(communeId, limit, slug, lat, lng)
 }
 
 /**
@@ -238,6 +261,13 @@ const REGION_METADATA: Record<string, { name_fr: string; slug_fr: string; badge:
     badge: 'Axe E42 & E411',
     interventionDelay: '≤ 45 min',
     description: 'Techniciens mobiles intervenant rapidement à Namur centre, Gembloux, Sambreville, Andenne, Ciney et Dinant.',
+  },
+  'luxembourg': {
+    name_fr: 'Province de Luxembourg',
+    slug_fr: 'luxembourg',
+    badge: 'Arlon · Bastogne · Marche',
+    interventionDelay: '≤ 60 min',
+    description: 'Service de dépannage et maintenance chaudière couvrant Arlon, Bastogne, Marche-en-Famenne, Virton, Libramont et l’ensemble de la province.',
   },
 }
 

@@ -165,6 +165,7 @@ export function CommuneHero({ commune }: CommuneHeroProps) {
             <LeadForm
               variant="full"
               initialPostalCode={postal}
+              initialCommuneName={commune.name_fr}
               sourceUrl={`/chauffagiste-${commune.slug_fr}`}
               className="p-6 sm:p-7 shadow-xl border border-slate-200"
             />
