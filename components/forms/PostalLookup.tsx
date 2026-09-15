@@ -66,7 +66,7 @@ export function PostalLookup({
           e.preventDefault()
           handleSearch(postalCode)
         }}
-        className="flex items-stretch gap-2 bg-white p-1.5 rounded-xl shadow-md border border-slate-200 focus-within:border-brand-blue focus-within:ring-2 focus-within:ring-brand-blue/20 transition"
+        className="flex items-stretch gap-2 bg-white p-1.5 rounded-xl shadow-md border border-slate-200 focus-within:border-[#082B55] focus-within:ring-2 focus-within:ring-[#082B55]/20 transition min-h-[52px]"
       >
         <div className="relative flex-1 flex items-center pl-3">
           <MapPin className="w-5 h-5 text-slate-400 shrink-0 mr-2" />
@@ -75,10 +75,11 @@ export function PostalLookup({
             inputMode="numeric"
             pattern="[0-9]*"
             maxLength={4}
+            autoComplete="postal-code"
             value={postalCode}
             onChange={handleChange}
             placeholder={placeholder}
-            className="w-full bg-transparent text-slate-900 text-sm md:text-base outline-none font-medium placeholder:text-slate-400"
+            className="w-full bg-transparent text-slate-900 text-base outline-none font-medium placeholder:text-slate-500 h-11"
             aria-label="Code postal belge"
           />
           {isPending && (
@@ -89,7 +90,7 @@ export function PostalLookup({
         <button
           type="submit"
           disabled={postalCode.length !== 4 || isPending}
-          className="bg-primary hover:bg-primary-hover text-white text-sm md:text-base font-bold px-5 py-3 rounded-lg transition flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+          className="bg-primary hover:bg-primary-hover text-white text-base font-bold px-5 min-h-[48px] rounded-lg transition flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
           <span>{buttonLabel}</span>
           <ArrowRight className="w-4 h-4" />

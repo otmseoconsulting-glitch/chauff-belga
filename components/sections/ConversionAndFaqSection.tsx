@@ -134,7 +134,7 @@ export function ConversionAndFaqSection() {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-3.5">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Honeypot */}
                 <div className="opacity-0 absolute -z-10 h-0 w-0 overflow-hidden pointer-events-none" aria-hidden="true">
                   <input
@@ -153,69 +153,17 @@ export function ConversionAndFaqSection() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label htmlFor="form-nom" className="sr-only">Nom complet *</label>
-                    <input
-                      id="form-nom"
-                      required
-                      type="text"
-                      value={nom}
-                      onChange={(e) => setNom(e.target.value)}
-                      placeholder="Nom complet *"
-                      className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="form-tel" className="sr-only">Téléphone *</label>
-                    <input
-                      id="form-tel"
-                      required
-                      type="tel"
-                      value={tel}
-                      onChange={(e) => setTel(e.target.value)}
-                      placeholder="Téléphone *"
-                      className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label htmlFor="form-email" className="sr-only">Email</label>
-                    <input
-                      id="form-email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Email (optionnel)"
-                      className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="form-cp" className="sr-only">Code postal *</label>
-                    <input
-                      id="form-cp"
-                      required
-                      type="text"
-                      maxLength={4}
-                      inputMode="numeric"
-                      value={cp}
-                      onChange={(e) => setCp(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                      placeholder="Code postal *"
-                      className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none"
-                    />
-                  </div>
-                </div>
-
+                {/* Single-Column Vertical Layout */}
                 <div>
-                  <label htmlFor="form-service" className="sr-only">Type de service *</label>
+                  <label htmlFor="form-service" className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">
+                    Service souhaité <span className="text-[#E5232E]">*</span>
+                  </label>
                   <select
                     id="form-service"
                     required
                     value={service}
                     onChange={(e) => setService(e.target.value as typeof service)}
-                    className="w-full text-xs px-3.5 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-slate-300 focus:border-[#E5232E] focus:outline-none"
+                    className="w-full h-12 min-h-[48px] px-4 rounded-xl bg-[#051C38] border border-slate-700 text-white text-base focus:border-[#E5232E] focus:ring-2 focus:ring-[#E5232E]/20 focus:outline-none"
                   >
                     <option value="depannage">🚨 Dépannage urgent (≤ 2h)</option>
                     <option value="entretien">🔧 Entretien annuel chaudière PEB</option>
@@ -227,41 +175,111 @@ export function ConversionAndFaqSection() {
                 </div>
 
                 <div>
-                  <label htmlFor="form-demande" className="sr-only">Précisions (optionnel)</label>
+                  <label htmlFor="form-nom" className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">
+                    Nom et Prénom <span className="text-[#E5232E]">*</span>
+                  </label>
+                  <input
+                    id="form-nom"
+                    required
+                    type="text"
+                    autoComplete="name"
+                    value={nom}
+                    onChange={(e) => setNom(e.target.value)}
+                    placeholder="Ex: Jean Dupont"
+                    className="w-full h-12 min-h-[48px] px-4 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 text-base focus:border-[#E5232E] focus:ring-2 focus:ring-[#E5232E]/20 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="form-tel" className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">
+                    Téléphone mobile <span className="text-[#E5232E]">*</span>
+                  </label>
+                  <input
+                    id="form-tel"
+                    required
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    value={tel}
+                    onChange={(e) => setTel(e.target.value)}
+                    placeholder="Ex: 0475 12 34 56"
+                    className="w-full h-12 min-h-[48px] px-4 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 text-base focus:border-[#E5232E] focus:ring-2 focus:ring-[#E5232E]/20 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="form-cp" className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">
+                    Code postal (Belgique) <span className="text-[#E5232E]">*</span>
+                  </label>
+                  <input
+                    id="form-cp"
+                    required
+                    type="text"
+                    maxLength={4}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    autoComplete="postal-code"
+                    value={cp}
+                    onChange={(e) => setCp(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                    placeholder="Ex: 1000, 4000..."
+                    className="w-full h-12 min-h-[48px] px-4 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 text-base focus:border-[#E5232E] focus:ring-2 focus:ring-[#E5232E]/20 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="form-email" className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">
+                    Adresse email <span className="text-slate-400 text-xs font-normal">(optionnel)</span>
+                  </label>
+                  <input
+                    id="form-email"
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="jean.dupont@exemple.be"
+                    className="w-full h-12 min-h-[48px] px-4 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 text-base focus:border-[#E5232E] focus:ring-2 focus:ring-[#E5232E]/20 focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="form-demande" className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">
+                    Précisions / Marque de la chaudière <span className="text-slate-400 text-xs font-normal">(optionnel)</span>
+                  </label>
                   <textarea
                     id="form-demande"
-                    rows={3}
+                    rows={2}
                     value={demande}
                     onChange={(e) => setDemande(e.target.value)}
-                    placeholder="Précisions : marque, code erreur, panne..."
-                    className="w-full text-xs px-3.5 py-2.5 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 focus:border-[#E5232E] focus:outline-none resize-none"
+                    placeholder="Ex: Chaudière Vaillant en panne d'eau chaude..."
+                    className="w-full px-4 py-3 rounded-xl bg-[#051C38] border border-slate-700 text-white placeholder:text-slate-400 text-base focus:border-[#E5232E] focus:ring-2 focus:ring-[#E5232E]/20 focus:outline-none resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="w-full flex items-center justify-center gap-2 bg-[#E5232E] hover:bg-[#D01B25] text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition-colors text-[14px] disabled:opacity-60"
+                  className="w-full flex items-center justify-center gap-2 bg-[#E5232E] hover:bg-[#D01B25] text-white font-extrabold h-[52px] min-h-[48px] px-4 rounded-xl shadow-md transition-all text-base disabled:opacity-60 cursor-pointer"
                 >
                   {isPending ? (
                     <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>Envoi en cours...</span>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <span>Transmission en cours...</span>
                     </>
                   ) : (
                     <>
-                      <span>Envoyer ma demande</span>
-                      <ArrowRight className="h-4 w-4" />
+                      <span>Obtenir mon devis gratuit & sans engagement</span>
+                      <ArrowRight className="h-5 w-5" />
                     </>
                   )}
                 </button>
 
-                <div className="pt-2 text-[10px] text-slate-300 flex flex-col gap-1 text-center">
+                <div className="pt-2 text-[11px] text-slate-300 flex flex-col gap-1 text-center">
                   <span className="flex items-center justify-center gap-1 font-medium">
-                    <Lock className="h-3 w-3 text-slate-400" />
-                    Vos données sont protégées conformément au RGPD.
+                    <Lock className="h-3.5 w-3.5 text-slate-400" />
+                    Vos données sont protégées (RGPD)
                   </span>
-                  <span className="text-slate-400">100% gratuit • Sans engagement • Réponse rapide</span>
+                  <span className="text-slate-400">100% gratuit • Réponse garantie sous 2h • Sans engagement</span>
                 </div>
               </form>
             )}

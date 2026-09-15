@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { Breadcrumb } from '@/components/seo/Breadcrumb'
 import { ReassuranceBar } from '@/components/sections/ReassuranceBar'
+import { LeadForm } from '@/components/forms/LeadForm'
 
 export const metadata: Metadata = {
   title: 'Contact Chauffagiste Belgique : Dépannage 24/7 & Devis Gratuit | Chauffagiste-Belga',
@@ -145,95 +146,12 @@ export default function ContactPage() {
             </div>
 
             {/* Quick Form */}
-            <div className="lg:col-span-2 bg-white rounded-2xl p-7 md:p-8 border border-slate-200 shadow-xs">
-              <h2 className="text-2xl font-black text-brand-dark mb-2">Envoyez-nous un message</h2>
-              <p className="text-slate-600 text-sm mb-6">
-                Remplissez ce formulaire pour recevoir un devis détaillé ou planifier un entretien périodique PEB.
-              </p>
-
-              <form action="/devis" method="GET" className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                      Nom & Prénom *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      placeholder="Ex: Jean Dupont"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                      Numéro de téléphone *
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      required
-                      placeholder="Ex: 0470 12 34 56"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                      Code postal / Commune *
-                    </label>
-                    <input
-                      type="text"
-                      name="postal"
-                      required
-                      placeholder="Ex: 1000 Bruxelles ou 5000 Namur"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                      Type de prestation
-                    </label>
-                    <select
-                      name="service"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue bg-white"
-                    >
-                      <option value="depannage">Dépannage d’urgence (≤ 24h)</option>
-                      <option value="entretien">Entretien obligatoire PEB</option>
-                      <option value="installation">Remplacement / Installation chaudière</option>
-                      <option value="debouchage">Débouchage canalisations</option>
-                      <option value="autre">Autre demande</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                    Description de votre demande ou panne
-                  </label>
-                  <textarea
-                    rows={4}
-                    name="message"
-                    placeholder="Précisez la marque de votre chaudière (Vaillant, Bulex...), le code d’erreur affiché ou la nature du problème..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2 text-xs text-slate-500">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Vos données sont protégées et ne sont jamais cédées à des tiers.</span>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3 px-6 rounded-xl bg-brand-blue hover:bg-blue-700 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 shadow-xs"
-                >
-                  <Send className="w-4 h-4" />
-                  Envoyer ma demande de contact
-                </button>
-              </form>
+            <div className="lg:col-span-2">
+              <LeadForm
+                variant="full"
+                sourceUrl="/contact"
+                className="shadow-xs border border-slate-200"
+              />
             </div>
           </div>
         </div>

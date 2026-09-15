@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { CONTACT } from '@/lib/constants/contact'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 const HAZARD_REGEX = /(gaz|odeur|fuite\s+de\s+gaz|monoxyde|co\b|étourdissement|flamme\s+jaune|fumée|brûlé)/i
+const PHONE_REGEX = /(\+32\s?[1-9]\d{1,2}\s?\d{2}\s?\d{2}\s?\d{2}|04\d{2}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2}|0[1-9]\d{1}[\s.-]?\d{2}[\s.-]?\d{2}[\s.-]?\d{2})/
 
 const HAZARD_RESPONSE = `⚠️ ALERTE SÉCURITÉ CRITIQUE : RISQUE GAZ / MONOXYDE DE CARBONE (CO)
 
@@ -21,10 +23,12 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const messages: ChatMessage[] = body.messages || []
+    const sessionId: string = body.sessionId || body.session_token || 'anon-session'
     const latestUserMessage = messages.filter((m) => m.role === 'user').pop()?.content || ''
 
     // 1. Critical Gas / CO Safety Intercept Protocol (0ms bypass)
-    if (HAZARD_REGEX.test(latestUserMessage)) {
+    const isGasHazard = HAZARD_REGEX.test(latestUserMessage)
+    if (isGasHazard) {
       return NextResponse.json({
         isEmergency: true,
         hazardType: 'gas_co',
@@ -35,6 +39,13 @@ export async function POST(request: NextRequest) {
     // 2. Technical HVAC Expert Heuristic Engine
     const lower = latestUserMessage.toLowerCase()
     let responseText = ''
+    let boilerBrand: string | null = null
+
+    if (lower.includes('vaillant')) boilerBrand = 'Vaillant'
+    else if (lower.includes('bulex')) boilerBrand = 'Bulex'
+    else if (lower.includes('viessmann')) boilerBrand = 'Viessmann'
+    else if (lower.includes('bosch')) boilerBrand = 'Bosch'
+    else if (lower.includes('junkers')) boilerBrand = 'Junkers'
 
     if (lower.includes('pression') || lower.includes('bar') || lower.includes('0.') || lower.includes('f22')) {
       responseText = `🔧 Diagnostic Pression d'Eau :
@@ -68,9 +79,31 @@ Pour vous aider précisément :
 Pour toute urgence immédiate, notre permanence technique est joignable 7j/7 au ${CONTACT.phone.display}.`
     }
 
+    // 3. Asynchronous Non-blocking Supabase Telemetry & Lead Capture
+    try {
+      const phoneMatch = latestUserMessage.match(PHONE_REGEX)
+      if (phoneMatch) {
+        const detectedPhone = phoneMatch[0].replace(/[\s.-]/g, '')
+        const adminSb = createAdminClient()
+        await adminSb.from('leads').insert({
+          full_name: 'Lead Chat Diagnostic',
+          phone: detectedPhone,
+          postal_code: '1000',
+          service_type: 'depannage',
+          message: latestUserMessage,
+          is_urgent: true,
+          source_url: '/chat-diagnostic',
+          status: 'new',
+        })
+      }
+    } catch (telemetryErr) {
+      console.warn('[Chat API] Non-blocking telemetry notice:', telemetryErr)
+    }
+
     return NextResponse.json({
       isEmergency: false,
       content: responseText,
+      boilerBrand,
     })
   } catch (error) {
     console.error('[Chat API] Error processing message:', error)
