@@ -33,13 +33,21 @@ export function buildBlockSeed(nisCode: string, blockId: string): number {
  */
 export function resolveSpintax(template: string, seed: number): string {
   let currentSeed = seed
+  let result = template
 
-  return template.replace(/\{([^{}]+)\}/g, (_, options: string) => {
-    currentSeed = xorshift32(currentSeed)
-    const choices = options.split('|')
-    const index = Math.floor(seededRandom(currentSeed) * choices.length)
-    return choices[index] ?? choices[0] ?? ''
-  })
+  // Iteratively resolve innermost spintax brackets until no brackets remain
+  while (result.includes('{') && result.includes('}')) {
+    const prev = result
+    result = result.replace(/\{([^{}]+)\}/g, (_, options: string) => {
+      currentSeed = xorshift32(currentSeed)
+      const choices = options.split('|')
+      const index = Math.floor(seededRandom(currentSeed) * choices.length)
+      return choices[index] ?? choices[0] ?? ''
+    })
+    if (result === prev) break
+  }
+
+  return result
 }
 
 /**

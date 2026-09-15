@@ -10,9 +10,10 @@ import {
 
 interface CommuneWhyChooseUsProps {
   communeName: string
+  trustStatement?: string
 }
 
-export function CommuneWhyChooseUs({ communeName }: CommuneWhyChooseUsProps) {
+export function CommuneWhyChooseUs({ communeName, trustStatement }: CommuneWhyChooseUsProps) {
   const cards = [
     {
       title: 'Expertise locale',
@@ -47,7 +48,7 @@ export function CommuneWhyChooseUs({ communeName }: CommuneWhyChooseUsProps) {
               Pourquoi choisir notre chauffagiste à {communeName} ?
             </h2>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-              Plus qu’un simple dépannage d’urgence, votre sécurité et la longévité de votre installation sont notre priorité absolue.
+              {trustStatement || `Plus qu’un simple dépannage d’urgence, votre sécurité et la longévité de votre installation sont notre priorité absolue.`}
             </p>
             <Link
               href="/notre-equipe"

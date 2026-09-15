@@ -2,9 +2,10 @@ import { Flame, Phone } from 'lucide-react'
 
 interface CommuneBannerCtaProps {
   communeName: string
+  ctaText?: string
 }
 
-export function CommuneBannerCta({ communeName }: CommuneBannerCtaProps) {
+export function CommuneBannerCta({ communeName, ctaText }: CommuneBannerCtaProps) {
   return (
     <section className="py-10 bg-white">
       <div className="container-default">
@@ -20,7 +21,7 @@ export function CommuneBannerCta({ communeName }: CommuneBannerCtaProps) {
                 Besoin d’un chauffagiste à {communeName} ?
               </h2>
               <p className="text-xs sm:text-sm text-slate-300">
-                Notre équipe est disponible 24h/24 et 7j/7 pour tous vos dépannages et urgences.
+                {ctaText || 'Notre équipe est disponible 24h/24 et 7j/7 pour tous vos dépannages et urgences.'}
               </p>
             </div>
           </div>

@@ -17,9 +17,10 @@ import { LeadForm } from '@/components/forms/LeadForm'
 
 interface CommuneHeroProps {
   commune: CommuneRecord
+  introText?: string
 }
 
-export function CommuneHero({ commune }: CommuneHeroProps) {
+export function CommuneHero({ commune, introText }: CommuneHeroProps) {
   const postal = commune.postal_codes?.[0] ?? ''
   const regionName = commune.provinces?.name_fr ?? 'belge'
 
@@ -55,7 +56,7 @@ export function CommuneHero({ commune }: CommuneHeroProps) {
 
               {/* Subtitle */}
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 max-w-xl">
-                Dépannage, entretien et installation de votre système de chauffage. Intervention rapide dans toute la région {regionName} ({postal}).
+                {introText || `Dépannage, entretien et installation de votre système de chauffage. Intervention rapide dans toute la région ${regionName} (${postal}).`}
               </p>
 
               {/* 4 Trust Badges in 2x2 grid */}

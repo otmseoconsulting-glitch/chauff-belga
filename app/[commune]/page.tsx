@@ -74,7 +74,7 @@ export default async function CommunePage({ params }: CommunePageProps) {
       <JsonLd schema={schemas} />
 
       {/* 1. Hero Split Section with Lead Capture Form Card */}
-      <CommuneHero commune={commune} />
+      <CommuneHero commune={commune} introText={content.introGeneral} />
 
       {/* 2. Full-Width Dark Blue Reassurance Bar (📍, ⏱, 🛡, ⭐) */}
       <CommuneReassuranceBar communeName={commune.name_fr} />
@@ -154,7 +154,10 @@ export default async function CommunePage({ params }: CommunePageProps) {
       />
 
       {/* 7. "Pourquoi choisir notre chauffagiste à [Commune] ?" (Left text, Right 2x2 cards) */}
-      <CommuneWhyChooseUs communeName={commune.name_fr} />
+      <CommuneWhyChooseUs
+        communeName={commune.name_fr}
+        trustStatement={content.trustStatement}
+      />
 
       {/* 8. Major City Hub: Regional Energy Subsidies (Renolution / SPW) */}
       {isMajorCity && (
@@ -174,7 +177,10 @@ export default async function CommunePage({ params }: CommunePageProps) {
       />
 
       {/* 11. Full-Width Two-Tone CTA Banner (Dark Navy + Orange Curve) */}
-      <CommuneBannerCta communeName={commune.name_fr} />
+      <CommuneBannerCta
+        communeName={commune.name_fr}
+        ctaText={content.closingCta}
+      />
 
       {/* 12. Mobile Sticky Quick Action Bar */}
       <CommuneStickyBar />
