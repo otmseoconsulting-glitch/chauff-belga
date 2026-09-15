@@ -84,13 +84,13 @@ export function Footer() {
 
           {/* Col 4: À PROPOS */}
           <div className="flex flex-col gap-2.5">
-            <span className="font-bold text-white text-[14px] uppercase tracking-wider mb-2">À propos</span>
-            <Link href="/#a-propos" className="hover:text-white transition-colors">Notre équipe</Link>
-            <Link href="/#a-propos" className="hover:text-white transition-colors">Nos engagements</Link>
-            <Link href="/#avis" className="hover:text-white transition-colors">Avis clients</Link>
-            <Link href="/#conseils" className="hover:text-white transition-colors">Blog</Link>
-            <Link href="/#devis" className="hover:text-white transition-colors">Contact</Link>
-            <Link href="/#faq" className="hover:text-white transition-colors">FAQ</Link>
+            <Link href="/a-propos" className="font-bold text-white text-[14px] uppercase tracking-wider mb-2 hover:text-red-400 transition-colors">À propos</Link>
+            <Link href="/notre-equipe" className="hover:text-white transition-colors">Notre équipe</Link>
+            <Link href="/nos-engagements" className="hover:text-white transition-colors">Nos engagements</Link>
+            <Link href="/avis-clients" className="hover:text-white transition-colors">Avis clients</Link>
+            <Link href="/conseils" className="hover:text-white transition-colors">Blog</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/faq" className="hover:text-white transition-colors">FAQ</Link>
           </div>
 
           {/* Col 5: INFORMATIONS */}
