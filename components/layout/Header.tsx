@@ -10,6 +10,7 @@ import { CONTACT } from '@/lib/constants/contact'
 const NAV_ITEMS = [
   { label: 'Accueil', href: '/' },
   { label: 'Nos services', href: '/nos-services' },
+  { label: 'Zones', href: '/zones-intervention' },
   { label: 'Urgence 24/7', href: '/urgence' },
   { label: 'Tarifs', href: '/tarifs' },
   { label: 'Conseils', href: '/conseils' },

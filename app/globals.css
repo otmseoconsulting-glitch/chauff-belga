@@ -12,7 +12,12 @@
   --color-text-main: #102A43;
   --color-text-muted: #64748B;
 
-  /* ── Legacy Aliases for Compatibility ── */
+  /* ── Brand & Compatibility Aliases ── */
+  --color-brand-dark: #082B55;
+  --color-brand-navy: #051C38;
+  --color-brand-blue: #155EEF;
+  --color-primary: #E5232E;
+  --color-primary-hover: #D01B25;
   --color-brand-red: #E5232E;
   --color-brand-red-hover: #D01B25;
   --color-emergency-red: #E5232E;
@@ -120,3 +125,14 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+.btn-emergency {
+  background-color: #E5232E;
+  color: #FFFFFF;
+  transition: all 150ms ease-in-out;
+}
+
+.btn-emergency:hover {
+  background-color: #D01B25;
+}
+

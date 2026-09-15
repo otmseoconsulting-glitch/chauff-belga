@@ -270,6 +270,19 @@ export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
               </span>
             </Link>
 
+            {/* Zones d'intervention link */}
+            <Link
+              href="/zones-intervention"
+              onClick={onClose}
+              className="flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-800 hover:bg-slate-50 active:bg-slate-100 min-h-[48px]"
+            >
+              <span className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-brand-blue" />
+                <span>Zones d&apos;intervention</span>
+              </span>
+              <ArrowRight className="w-4 h-4 text-slate-400" />
+            </Link>
+
             <Link
               href="/tarifs"
               onClick={onClose}

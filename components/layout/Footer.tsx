@@ -151,6 +151,9 @@ export function Footer() {
                 openSections['zones'] ? 'block' : 'hidden sm:flex'
               }`}
             >
+              <Link href="/zones-intervention" className="font-bold text-red-400 hover:text-white py-1 transition-colors">
+                Toutes les communes (Hub 24/7) &rarr;
+              </Link>
               <Link href="/chauffagiste-bruxelles" className="hover:text-white py-1 transition-colors">Bruxelles (19 communes)</Link>
               <Link href="/chauffagiste-liege" className="hover:text-white py-1 transition-colors">Liège & Agglomération</Link>
               <Link href="/chauffagiste-namur" className="hover:text-white py-1 transition-colors">Namur & Meuse</Link>
@@ -158,7 +161,6 @@ export function Footer() {
               <Link href="/chauffagiste-mons" className="hover:text-white py-1 transition-colors">Mons & Borinage</Link>
               <Link href="/chauffagiste-wavre" className="hover:text-white py-1 transition-colors">Brabant wallon (Wavre, Nivelles)</Link>
               <Link href="/chauffagiste-ixelles" className="hover:text-white py-1 transition-colors">Ixelles, Uccle, Schaerbeek</Link>
-              <Link href="/#zones" className="font-semibold text-slate-300 hover:text-white py-1 transition-colors">Toute la Belgique &rarr;</Link>
             </div>
           </div>
 
