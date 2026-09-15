@@ -3,11 +3,11 @@ import { Phone } from 'lucide-react'
 
 const NAV_ITEMS = [
   { label: 'Accueil', href: '/', isActive: true },
-  { label: 'Nos services', href: '/#services', isActive: false },
+  { label: 'Nos services', href: '/nos-services', isActive: false },
   { label: "Zones d'intervention", href: '/#zones', isActive: false },
   { label: 'À propos', href: '/#a-propos', isActive: false },
   { label: 'Avis clients', href: '/#avis', isActive: false },
-  { label: 'Conseils', href: '/#faq', isActive: false },
+  { label: 'Conseils', href: '/conseils', isActive: false },
 ]
 
 export function Header() {

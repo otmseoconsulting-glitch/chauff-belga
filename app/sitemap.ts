@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getAllActiveCommuneSlugs } from '@/lib/supabase/communes'
 import { getAllPostSlugs } from '@/lib/sanity/blog'
+import { getAllServiceSlugs } from '@/lib/data/services-data'
 
 const SITE_URL = process.env['NEXT_PUBLIC_SITE_URL'] || 'https://chauffagiste-belga.be'
 
@@ -9,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getAllActiveCommuneSlugs(),
     getAllPostSlugs(),
   ])
+  const serviceSlugs = getAllServiceSlugs()
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -16,6 +18,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/nos-services`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${SITE_URL}/devis`,
@@ -56,6 +64,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }))
 
+  const serviceRoutes: MetadataRoute.Sitemap = serviceSlugs.map((slug) => ({
+    url: `${SITE_URL}/nos-services/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }))
+
   const communeRoutes: MetadataRoute.Sitemap = communeSlugs.map((slug) => ({
     url: `${SITE_URL}/chauffagiste-${slug}`,
     lastModified: new Date(),
@@ -63,5 +78,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }))
 
-  return [...staticRoutes, ...postRoutes, ...communeRoutes]
+  return [...staticRoutes, ...serviceRoutes, ...postRoutes, ...communeRoutes]
 }

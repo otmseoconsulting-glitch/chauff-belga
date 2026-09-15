@@ -58,14 +58,15 @@ export function Footer() {
 
           {/* Col 2: NOS SERVICES */}
           <div className="flex flex-col gap-2.5">
-            <span className="font-bold text-white text-[14px] uppercase tracking-wider mb-2">Nos services</span>
-            <Link href="/#services" className="hover:text-white transition-colors">Dépannage chauffage</Link>
-            <Link href="/#services" className="hover:text-white transition-colors">Entretien chaudière</Link>
-            <Link href="/#services" className="hover:text-white transition-colors">Installation chauffage</Link>
-            <Link href="/#services" className="hover:text-white transition-colors">Réparation chaudière</Link>
-            <Link href="/#services" className="hover:text-white transition-colors">Régulation & thermostat</Link>
-            <Link href="/#services" className="hover:text-white transition-colors">Chauffage au sol</Link>
-            <Link href="/#services" className="hover:text-white transition-colors">Pompe à chaleur</Link>
+            <Link href="/nos-services" className="font-bold text-white text-[14px] uppercase tracking-wider mb-2 hover:text-red-400 transition-colors">Nos services</Link>
+            <Link href="/nos-services/depannage-chaudiere" className="hover:text-white transition-colors">Dépannage chaudière</Link>
+            <Link href="/nos-services/entretien-chaudiere" className="hover:text-white transition-colors">Entretien chaudière</Link>
+            <Link href="/nos-services/installation-chauffage" className="hover:text-white transition-colors">Installation chauffage</Link>
+            <Link href="/nos-services/reparation-chaudiere" className="hover:text-white transition-colors">Réparation chaudière</Link>
+            <Link href="/nos-services/regulation-thermostat" className="hover:text-white transition-colors">Régulation & thermostat</Link>
+            <Link href="/nos-services/chauffage-sol" className="hover:text-white transition-colors">Chauffage au sol</Link>
+            <Link href="/nos-services/pompe-chaleur" className="hover:text-white transition-colors">Pompe à chaleur</Link>
+            <Link href="/nos-services/debouchage" className="hover:text-white transition-colors">Débouchage urgent</Link>
           </div>
 
           {/* Col 3: ZONES D'INTERVENTION */}

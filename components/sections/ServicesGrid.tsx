@@ -16,7 +16,7 @@ const SERVICES = [
       'Pièces d\'origine constructeur garanties',
     ],
     brands: 'Vaillant • Bulex • Viessmann • Bosch',
-    href: '/#devis',
+    href: '/nos-services/depannage-chaudiere',
   },
   {
     id: 'entretien',
@@ -33,7 +33,7 @@ const SERVICES = [
       'Mesure combustion & sécurité monoxyde (CO)',
     ],
     brands: 'Gaz & Mazout (toutes marques agréées)',
-    href: '/#devis',
+    href: '/nos-services/entretien-chaudiere',
   },
   {
     id: 'installation',
@@ -49,7 +49,7 @@ const SERVICES = [
       'Garantie constructeur & installation 2 ans',
     ],
     brands: 'Viessmann • Daikin • Vaillant • Buderus',
-    href: '/#devis',
+    href: '/nos-services/installation-chauffage',
   },
   {
     id: 'reparation',
@@ -65,7 +65,7 @@ const SERVICES = [
       'Devis préalable transparent avant travaux',
     ],
     brands: 'ACV • Junkers • Weishaupt • Ferroli',
-    href: '/#devis',
+    href: '/nos-services/reparation-chaudiere',
   },
   {
     id: 'thermostat',
@@ -81,7 +81,7 @@ const SERVICES = [
       'Programmation multizone pour un confort parfait',
     ],
     brands: 'Tado • Nest • Netatmo • Honeywell',
-    href: '/#devis',
+    href: '/nos-services/regulation-thermostat',
   },
   {
     id: 'chauffage-sol',
@@ -97,7 +97,7 @@ const SERVICES = [
       'Régulation de débit pour une chaleur uniforme',
     ],
     brands: 'Rehau • Giacomini • Begetube • Comap',
-    href: '/#devis',
+    href: '/nos-services/chauffage-sol',
   },
 ]
 
@@ -121,7 +121,7 @@ export function ServicesGrid() {
           </div>
 
           <Link
-            href="/#services"
+            href="/nos-services"
             className="inline-flex items-center gap-1.5 text-[14px] font-bold text-[#102A43] hover:text-[#E5232E] group shrink-0 self-start md:self-end border-b-2 border-[#E5232E] pb-0.5 transition-colors"
           >
             <span>Découvrir tous nos services</span>
