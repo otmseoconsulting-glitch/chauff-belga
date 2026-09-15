@@ -9,11 +9,13 @@ import { ReassuranceBar } from '@/components/sections/ReassuranceBar'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import { NearbyCommunes } from '@/components/sections/NearbyCommunes'
 import { FinalCTASection } from '@/components/sections/FinalCTASection'
-import { getCommuneBySlug, getAllActiveCommuneSlugs, getNearbyCommunes } from '@/lib/supabase/communes'
+import { getCommuneBySlug, getAllActiveCommuneSlugs, getNearbyCommunes, getNearestMajorHub } from '@/lib/supabase/communes'
 import { generateCommuneContent } from '@/lib/seo/spintax'
 import { generateCommuneMetadata } from '@/lib/seo/meta'
 import { buildCommuneSchemaGraph } from '@/lib/seo/schema'
 import { getLocalFaqTemplates } from '@/lib/seo/spintax-data'
+import { SymptomsSection } from '@/components/sections/SymptomsSection'
+import { SubsidiesSection } from '@/components/sections/SubsidiesSection'
 
 export const revalidate = 86400 // ISR 24h
 
@@ -55,10 +57,12 @@ export default async function CommunePage({ params }: CommunePageProps) {
     notFound()
   }
 
+  const isMajorCity = Boolean(commune.is_major_hub)
   const content = generateCommuneContent(commune)
-  const nearby = await getNearbyCommunes(commune.id, 8)
+  const nearby = await getNearbyCommunes(commune.id, isMajorCity ? 8 : 6)
+  const parentMajorHub = !isMajorCity ? await getNearestMajorHub(commune) : null
   const schemas = buildCommuneSchemaGraph(commune)
-  const localFaqs = getLocalFaqTemplates(commune.name_fr)
+  const localFaqs = getLocalFaqTemplates(commune.name_fr).slice(0, isMajorCity ? 6 : 4)
   const postalCode = commune.postal_codes?.[0] ?? ''
 
   return (
@@ -296,7 +300,10 @@ export default async function CommunePage({ params }: CommunePageProps) {
       {/* 3. Services Grid */}
       <ServicesGrid />
 
-      {/* 4. Local Editorial Content Block (Spintax rendered) */}
+      {/* 4. Major City Hub: Symptoms & Boiler Error Codes Diagnostic (long-tail capture) */}
+      {isMajorCity && <SymptomsSection communeName={commune.name_fr} />}
+
+      {/* 5. Local Editorial Content Block (Spintax rendered) */}
       <section className="section-padding bg-[#F7F9FC] border-y border-slate-200/80">
         <div className="container-default">
           <div className="max-w-3xl mx-auto text-center mb-12">
@@ -342,13 +349,21 @@ export default async function CommunePage({ params }: CommunePageProps) {
         </div>
       </section>
 
-      {/* 5. Reassurance Bar */}
+      {/* 6. Major City Hub: Regional Energy Subsidies (Renolution / Habitation SPW) */}
+      {isMajorCity && (
+        <SubsidiesSection
+          communeName={commune.name_fr}
+          provinceSlug={commune.provinces?.slug_fr}
+        />
+      )}
+
+      {/* 7. Reassurance Bar */}
       <ReassuranceBar />
 
-      {/* 6. Testimonials */}
-      <TestimonialsSection />
+      {/* 8. Testimonials (Authority Hub) */}
+      {isMajorCity && <TestimonialsSection />}
 
-      {/* 7. Localized FAQ Section */}
+      {/* 9. Localized FAQ Section */}
       <section className="section-padding bg-white">
         <div className="container-default">
           <div className="max-w-3xl mx-auto">
@@ -381,13 +396,14 @@ export default async function CommunePage({ params }: CommunePageProps) {
         </div>
       </section>
 
-      {/* 8. Nearby Communes Network (Hub-and-spoke PostGIS) */}
+      {/* 10. Nearby Communes Network (with Upward Link to Major Hub for Small Communes) */}
       <NearbyCommunes
         currentCommuneName={commune.name_fr}
         nearbyCommunes={nearby}
+        parentMajorHub={parentMajorHub}
       />
 
-      {/* 9. Final Local CTA */}
+      {/* 11. Final Local CTA */}
       <FinalCTASection />
     </>
   )

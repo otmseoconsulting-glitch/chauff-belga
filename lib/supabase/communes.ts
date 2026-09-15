@@ -5,6 +5,7 @@ import {
   FALLBACK_COMMUNES,
   getFallbackCommuneBySlug,
   getFallbackNearbyCommunes,
+  getFallbackNearestMajorHub,
 } from './fallback-communes'
 
 export type CommuneRow = Database['public']['Tables']['communes']['Row']
@@ -143,5 +144,40 @@ export async function getNearbyCommunes(
 
   return getFallbackNearbyCommunes(communeId, limit)
 }
+
+/**
+ * Fetch the nearest Major City Authority Hub for Upward Link equity flow
+ */
+export async function getNearestMajorHub(
+  commune: CommuneRecord
+): Promise<MajorCityResult | null> {
+  try {
+    const supabase = createPublicClient()
+    const { data, error } = await supabase
+      .from('communes')
+      .select('id, name_fr, slug_fr, is_major_hub, province_id')
+      .eq('is_major_hub', true)
+      .eq('is_active', true)
+      .neq('id', commune.id)
+
+    if (!error && data && data.length > 0) {
+      const sameProv = data.find((h) => h.province_id === commune.province_id)
+      const selected = sameProv || data[0]
+      if (selected) {
+        return {
+          id: selected.id,
+          name_fr: selected.name_fr,
+          slug_fr: selected.slug_fr,
+          distance_km: sameProv ? 7.5 : 15.0,
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('[getNearestMajorHub] Notice:', err)
+  }
+
+  return getFallbackNearestMajorHub(commune.id, commune.province_id)
+}
+
 
 

@@ -1,4 +1,4 @@
-import type { CommuneRecord, NearbyCommuneResult } from './communes'
+import type { CommuneRecord, NearbyCommuneResult, MajorCityResult } from './communes'
 
 const RAW_FALLBACK_COMMUNES = [
   {
@@ -41,7 +41,7 @@ const RAW_FALLBACK_COMMUNES = [
     population: 89120,
     area_km2: 6.34,
     is_active: true,
-    is_major_hub: true,
+    is_major_hub: false,
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
     provinces: {
@@ -66,7 +66,7 @@ const RAW_FALLBACK_COMMUNES = [
     population: 83703,
     area_km2: 22.91,
     is_active: true,
-    is_major_hub: true,
+    is_major_hub: false,
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
     provinces: {
@@ -91,7 +91,7 @@ const RAW_FALLBACK_COMMUNES = [
     population: 133657,
     area_km2: 8.14,
     is_active: true,
-    is_major_hub: true,
+    is_major_hub: false,
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
     provinces: {
@@ -116,7 +116,7 @@ const RAW_FALLBACK_COMMUNES = [
     population: 120455,
     area_km2: 17.74,
     is_active: true,
-    is_major_hub: true,
+    is_major_hub: false,
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
     provinces: {
@@ -291,7 +291,7 @@ const RAW_FALLBACK_COMMUNES = [
     population: 30174,
     area_km2: 21.03,
     is_active: true,
-    is_major_hub: true,
+    is_major_hub: false,
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
     provinces: {
@@ -316,7 +316,7 @@ const RAW_FALLBACK_COMMUNES = [
     population: 69554,
     area_km2: 213.76,
     is_active: true,
-    is_major_hub: true,
+    is_major_hub: false,
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
     provinces: {
@@ -358,3 +358,51 @@ export function getFallbackNearbyCommunes(
       distance_km: Number((3.2 + i * 2.1).toFixed(1)),
     }))
 }
+
+export function getFallbackNearestMajorHub(
+  currentId: string,
+  provinceId?: string
+): MajorCityResult | null {
+  const current = FALLBACK_COMMUNES.find((c) => c.id === currentId)
+  if (current?.is_major_hub) {
+    if (current.slug_fr !== 'bruxelles' && current.province_id === 'p-bruxelles') {
+      const bxl = FALLBACK_COMMUNES.find((c) => c.slug_fr === 'bruxelles')
+      if (bxl) {
+        return {
+          id: bxl.id,
+          name_fr: bxl.name_fr,
+          slug_fr: bxl.slug_fr,
+          distance_km: 4.2,
+        }
+      }
+    }
+    return null
+  }
+
+  const hubs = FALLBACK_COMMUNES.filter((c) => c.is_major_hub && c.id !== currentId)
+  if (hubs.length === 0) return null
+
+  if (provinceId === 'p-bruxelles' || current?.provinces?.slug_fr === 'bruxelles-capitale') {
+    const bxl = hubs.find((c) => c.slug_fr === 'bruxelles')
+    if (bxl) return { id: bxl.id, name_fr: bxl.name_fr, slug_fr: bxl.slug_fr, distance_km: 5.0 }
+  }
+
+  const sameProvinceHub = hubs.find((c) => c.province_id === (provinceId || current?.province_id))
+  if (sameProvinceHub) {
+    return {
+      id: sameProvinceHub.id,
+      name_fr: sameProvinceHub.name_fr,
+      slug_fr: sameProvinceHub.slug_fr,
+      distance_km: 8.5,
+    }
+  }
+
+  const first = hubs[0]!
+  return {
+    id: first.id,
+    name_fr: first.name_fr,
+    slug_fr: first.slug_fr,
+    distance_km: 12.0,
+  }
+}
+
