@@ -1,12 +1,13 @@
 import type { CommuneRecord } from '@/lib/supabase/communes'
 import { getLocalFaqTemplates } from './spintax-data'
+import { siteUrl } from '@/lib/env'
 
 export function buildCommuneSchemaGraph(commune: CommuneRecord): Record<string, unknown>[] {
   const communeName = commune.name_fr
   const slug = commune.slug_fr
   const postal = commune.postal_codes?.[0] ?? '1000'
   const province = commune.provinces?.name_fr ?? 'Belgique'
-  const pageUrl = `https://chauffagiste-belga.be/chauffagiste-${slug}`
+  const pageUrl = `${siteUrl}/chauffagiste-${slug}`
 
   // 1. HVACBusiness Local Schema
   const businessSchema: Record<string, unknown> = {
@@ -60,7 +61,7 @@ export function buildCommuneSchemaGraph(commune: CommuneRecord): Record<string, 
         '@type': 'ListItem',
         position: 1,
         name: 'Accueil',
-        item: 'https://chauffagiste-belga.be',
+        item: siteUrl,
       },
       {
         '@type': 'ListItem',

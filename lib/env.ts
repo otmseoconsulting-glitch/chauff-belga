@@ -9,9 +9,15 @@ const envSchema = z.object({
   NEXT_PUBLIC_SANITY_DATASET: z.string().default('production'),
   SANITY_API_TOKEN: z.string().catch('placeholder_sanity_token'),
   SANITY_WEBHOOK_SECRET: z.string().catch('placeholder_secret'),
+  NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
   NEXT_PUBLIC_APP_URL: z.string().url().default('https://chauffagiste-belga.be'),
   REVALIDATION_SECRET: z.string().catch('dev-secret-token'),
   OPENAI_API_KEY: z.string().optional(),
 })
 
 export const env = envSchema.parse(process.env)
+
+export const siteUrl =
+  env.NEXT_PUBLIC_SITE_URL ||
+  env.NEXT_PUBLIC_APP_URL ||
+  'https://chauffagiste-belga.be'

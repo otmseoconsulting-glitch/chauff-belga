@@ -2,8 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getAllActiveCommuneSlugs } from '@/lib/supabase/communes'
 import { getAllPostSlugs } from '@/lib/sanity/blog'
 import { getAllServiceSlugs } from '@/lib/data/services-data'
-
-const SITE_URL = process.env['NEXT_PUBLIC_SITE_URL'] || 'https://chauffagiste-belga.be'
+import { siteUrl } from '@/lib/env'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [communeSlugs, postSlugs] = await Promise.all([
@@ -14,91 +13,97 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: SITE_URL,
+      url: siteUrl,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
-      url: `${SITE_URL}/nos-services`,
+      url: `${siteUrl}/urgence`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+    {
+      url: `${siteUrl}/nos-services`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${SITE_URL}/devis`,
+      url: `${siteUrl}/devis`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${SITE_URL}/tarifs`,
+      url: `${siteUrl}/tarifs`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.85,
     },
     {
-      url: `${SITE_URL}/conseils`,
+      url: `${siteUrl}/conseils`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.85,
     },
     {
-      url: `${SITE_URL}/contact`,
+      url: `${siteUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${SITE_URL}/faq`,
+      url: `${siteUrl}/faq`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${SITE_URL}/a-propos`,
+      url: `${siteUrl}/a-propos`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.75,
     },
     {
-      url: `${SITE_URL}/avis-clients`,
+      url: `${siteUrl}/avis-clients`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.75,
     },
     {
-      url: `${SITE_URL}/notre-equipe`,
+      url: `${siteUrl}/notre-equipe`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${SITE_URL}/nos-engagements`,
+      url: `${siteUrl}/nos-engagements`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${SITE_URL}/mentions-legales`,
+      url: `${siteUrl}/mentions-legales`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.4,
     },
     {
-      url: `${SITE_URL}/confidentialite`,
+      url: `${siteUrl}/confidentialite`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.4,
     },
     {
-      url: `${SITE_URL}/rgpd`,
+      url: `${siteUrl}/rgpd`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.4,
     },
     {
-      url: `${SITE_URL}/conditions-generales`,
+      url: `${siteUrl}/conditions-generales`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.4,
@@ -106,21 +111,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   const postRoutes: MetadataRoute.Sitemap = postSlugs.map((slug) => ({
-    url: `${SITE_URL}/conseils/${slug}`,
+    url: `${siteUrl}/conseils/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly',
     priority: 0.75,
   }))
 
   const serviceRoutes: MetadataRoute.Sitemap = serviceSlugs.map((slug) => ({
-    url: `${SITE_URL}/nos-services/${slug}`,
+    url: `${siteUrl}/nos-services/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
     priority: 0.85,
   }))
 
   const communeRoutes: MetadataRoute.Sitemap = communeSlugs.map((slug) => ({
-    url: `${SITE_URL}/chauffagiste-${slug}`,
+    url: `${siteUrl}/chauffagiste-${slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
     priority: 0.85,
