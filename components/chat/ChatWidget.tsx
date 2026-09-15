@@ -90,10 +90,10 @@ export function ChatWidget() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 print:hidden">
+    <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 print:hidden">
       {/* Expanded Chat Window */}
       {isOpen && (
-        <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-[90vw] sm:w-[380px] h-[520px] flex flex-col overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-5 duration-200">
+        <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-[92vw] sm:w-[380px] h-[520px] flex flex-col overflow-hidden mb-3 animate-in fade-in slide-in-from-bottom-5 duration-200">
           {/* Header */}
           <div className="bg-brand-dark text-white p-4 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
@@ -109,19 +109,19 @@ export function ChatWidget() {
               </div>
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <a
                 href={`tel:${CONTACT.phone.e164}`}
-                className="p-2 text-primary hover:bg-white/10 rounded-full transition"
-                title="Appeler l'astreinte"
+                className="flex items-center justify-center h-8 w-8 bg-[#FF5400] hover:bg-[#E04B00] text-white rounded-full transition shadow-sm"
+                title={`Appeler l'astreinte au ${CONTACT.phone.display}`}
                 aria-label="Appeler d'urgence"
               >
-                <Phone className="w-4 h-4" />
+                <Phone className="w-4 h-4 fill-white" />
               </a>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-full transition"
+                className="h-8 w-8 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 rounded-full transition"
                 aria-label="Fermer le chat"
               >
                 <X className="w-4 h-4" />
@@ -213,15 +213,15 @@ export function ChatWidget() {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="bg-brand-dark hover:bg-brand-navy text-white p-4 rounded-full shadow-2xl transition-all duration-300 flex items-center gap-2.5 group border-2 border-white/20 hover:scale-105"
+          className="bg-[#FF5400] hover:bg-[#E04B00] text-white p-3.5 sm:p-4 rounded-full shadow-2xl transition-all duration-300 flex items-center gap-2.5 group border-2 border-white/40 hover:scale-105 active:scale-95"
           aria-label="Ouvrir le chat de diagnostic technique"
         >
           <div className="relative">
             <MessageSquare className="w-5 h-5 text-white" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary rounded-full animate-ping" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary rounded-full" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full ring-2 ring-white" />
           </div>
-          <span className="hidden sm:inline text-xs font-bold tracking-wide pr-1">
+          <span className="hidden sm:inline text-xs font-extrabold tracking-wide pr-1">
             Diagnostic 24/7
           </span>
         </button>
